@@ -11,5 +11,10 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/game")
+    public String game(){
+        return "blackjack-ingame";
+    }
+
 
 }
