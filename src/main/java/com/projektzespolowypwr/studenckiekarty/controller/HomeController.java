@@ -8,12 +8,12 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(){
-        return "index";
+        return "/html/index";
     }
 
     @GetMapping("/game")
     public String game(){
-        return "blackjack-ingame";
+        return "/html/blackjack-ingame";
     }
 
 
