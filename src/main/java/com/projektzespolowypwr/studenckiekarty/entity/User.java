@@ -12,10 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
+@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
