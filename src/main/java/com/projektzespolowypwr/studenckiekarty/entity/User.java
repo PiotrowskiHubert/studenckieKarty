@@ -1,53 +1,67 @@
 package com.projektzespolowypwr.studenckiekarty.entity;
 
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String username;
+    private String nickName;
+    private String password;
+    private String role;
+    private Boolean enabled;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(() -> role);
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return enabled;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return enabled;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return enabled;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
+
+
 }
