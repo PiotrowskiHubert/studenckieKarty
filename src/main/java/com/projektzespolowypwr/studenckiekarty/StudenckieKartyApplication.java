@@ -20,4 +20,16 @@ public class StudenckieKartyApplication implements CommandLineRunner {
         SpringApplication.run(StudenckieKartyApplication.class, args);
     }
 
+
+    @Override
+    public void run(String... args) throws Exception {
+        final User user = userRepository.save(User.builder()
+                .username("user")
+                .nickName("user")
+                .password(new BCryptPasswordEncoder().encode("user"))
+                .role("ROLE_USER")
+                .enabled(true)
+                .build()
+        );
+    }
 }
