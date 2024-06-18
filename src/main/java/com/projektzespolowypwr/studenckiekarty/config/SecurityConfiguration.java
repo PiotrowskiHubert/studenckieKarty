@@ -42,12 +42,14 @@ public class SecurityConfiguration {
                         withDefaults()
                 )
                 .logout(log-> log
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/nav/v1/home")
                         .deleteCookies("JSESSIONID")
                         .invalidateHttpSession(true)
                 )
                 .authorizeHttpRequests((aut)->
                         aut
+                                .requestMatchers("/games/v1/**").hasRole("USER")
+                                .requestMatchers("/nav/v1/myProfile").hasRole("USER")
                                 .requestMatchers(toH2Console()).permitAll()
                                 .anyRequest().permitAll()
                 )

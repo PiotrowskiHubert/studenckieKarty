@@ -24,6 +24,8 @@ public class MyUser implements UserDetails {
     private String password;
     private String role;
     private Boolean enabled;
+
+    private Long balance;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(() -> role);

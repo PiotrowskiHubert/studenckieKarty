@@ -9,8 +9,8 @@ public class StudenckieKartyApplication implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(StudenckieKartyApplication.class, args);
     }
-
     @Override
     public void run(String... args) throws Exception {
+
     }
 }
