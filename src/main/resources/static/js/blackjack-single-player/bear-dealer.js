@@ -30,17 +30,5 @@ class BearDealer{
         if (getDealer().points > getPlayer().points){
             getDealer().stand = true;
         }
-
-        // if (getDealer().points < POINTS_TO_STAND){
-        //     getDealer().getCard();
-        //     if (!getPlayer().stand){
-        //         getGame().turnState = PLAYER_TURN;
-        //     }else {
-        //         getGame().turnState = DEALER_TURN;
-        //     }
-        // }else {
-        //     getDealer().stand = true;
-        //     getGame().turnState = PLAYER_TURN;
-        // }
     }
 }

@@ -26,13 +26,8 @@ public class GamesController {
 
     @GetMapping("/blackjack-single-player")
     public String blackjackSinglePlayer(@AuthenticationPrincipal MyUser user, Model model){
-//        model.addAttribute("player", MyUser.builder()
-//                .username("player-u")
-//                .nickname("player-n")
-//                .balance(100L)
-//                .build());
-
         model.addAttribute("player", userService.findUserByNickname(user.getNickname()));
+
         return "blackjack-single-player";
     }
 

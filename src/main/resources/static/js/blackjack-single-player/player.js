@@ -17,6 +17,10 @@ class Player{
         this.stand = false;
     }
 
+    draw(){
+        this.playerDraw.draw();
+    }
+
     update(){
 
     }
@@ -75,7 +79,5 @@ class Player{
         this.points += points;
     }
 
-    draw(){
-        this.playerDraw.draw();
-    }
+
 }

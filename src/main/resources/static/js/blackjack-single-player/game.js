@@ -27,6 +27,8 @@ class Game {
         this.gameButtonsConfig = new GameButtonsConfig();
         this.aceButtonConfig = new AceButtonsConfig();
 
+        this.buttons = new Buttons(this);
+
         this.betButtons = [];
         this.dealerButtons = [];
         this.gameButtons = [];
@@ -617,6 +619,33 @@ class Game {
                     break;
             }
         }
+        const testButtonUpdate = () => {
+            if (this.mouseX >= (this.buttons.testButton.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.testButton.posX + this.buttons.testButton.width) * 0.75) &&
+                this.mouseY >= (this.buttons.testButton.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.testButton.posY + this.buttons.testButton.height) * 0.75)
+            ) {
+                this.buttons.testButton.mouseOver = true;
+
+                if (this.mouseClick) {
+                    this.buttons.testButton.clicked = true;
+                    if (this.buttons.testButton.clicked) {
+
+                        console.log("test button action")
+
+                        this.buttons.testButton.clicked = false;
+                    }
+
+                    this.mouseClick = false;
+                } else {
+                    this.buttons.testButton.clicked = false;
+                }
+            } else {
+                if (this.buttons.testButton.mouseOver) {
+                    this.buttons.testButton.mouseOver = false;
+                }
+            }
+        }
 
         switch (this.gameState) {
             case 'PLACE_BET':
@@ -629,6 +658,7 @@ class Game {
                 getStartCardsUpdate();
                 break;
             case 'GAME':
+                testButtonUpdate();
                 if (this.playerAcesAtStart > 0){
                     if (this.mouseX >= (this.aceValue1Button.posX * 0.75) &&
                         this.mouseX <= ((this.aceValue1Button.posX + this.aceValue1Button.width) * 0.75) &&
@@ -721,8 +751,6 @@ class Game {
                 if (this.dealer.stand && this.player.stand){
                     this.gameState = 'POST_GAME';
                 }
-
-                console.log(this.gameState);
 
                 break;
             case 'POST_GAME':
@@ -930,6 +958,8 @@ class Game {
                 drawDealer();
                 drawGameCardDeck();
                 drawGameButtons();
+
+                this.buttons.testButton.draw();
 
                 if (this.playerAcesAtStart > 0){
                     drawAceButtons();

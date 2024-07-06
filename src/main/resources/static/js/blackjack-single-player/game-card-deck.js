@@ -158,7 +158,6 @@ class GameCardDeck{
                 let deckPosX = this.game.canvas.width - 0.5*this.game.canvas.width - (cardWidth/2);
                 let deckPosY = this.game.canvas.height - 0.5* this.game.canvas.height - (cardHeight/2);
 
-
                 if (name === '2 of clubs'){
                     let card = new Card(
                         this.game,
@@ -363,7 +362,7 @@ class GameCardDeck{
                         5000
                     );
                     this.cardDeck.addCard(card);
-                }else if(name === 'Ace of clubs'){
+                }else if(name === 'A of clubs'){
                     let card = new Card(
                         this.game,
                         deckPosX,
@@ -584,7 +583,7 @@ class GameCardDeck{
                         5000
                     );
                     this.cardDeck.addCard(card);
-                }else if(name === 'Ace of spades'){
+                }else if(name === 'A of spades'){
                     let card = new Card(
                         this.game,
                         deckPosX,
@@ -805,7 +804,7 @@ class GameCardDeck{
                         5000
                     );
                     this.cardDeck.addCard(card);
-                }else if(name === 'Ace of hearts'){
+                }else if(name === 'A of hearts'){
                     let card = new Card(
                         this.game,
                         deckPosX,
@@ -1026,7 +1025,7 @@ class GameCardDeck{
                         5000
                     );
                     this.cardDeck.addCard(card);
-                }else if(name === 'Ace of diamonds'){
+                }else if(name === 'A of diamonds'){
                     let card = new Card(
                         this.game,
                         deckPosX,
@@ -1044,25 +1043,6 @@ class GameCardDeck{
                     );
                     this.cardDeck.addCard(card);
                 }
-                // else{
-                //     let card = new Card(
-                //         this.game,
-                //         deckPosX,
-                //         deckPosY,
-                //         cardWidth,
-                //         cardHeight,
-                //         name,
-                //         points,
-                //         `${suits[i]}-${names[j]}`,
-                //         this.cardImages,
-                //         j * cardWidth,
-                //         i * cardHeight,
-                //         cardWidth,
-                //         cardHeight
-                //     );
-                //     this.cardDeck.addCard(card);
-                // }
-
             }
         }
     }
@@ -1073,6 +1053,8 @@ class GameCardDeck{
             this.cardDeck.cards[i] = this.cardDeck.cards[j];
             this.cardDeck.cards[j] = temp;
         }
+
+        console.log(this.cardDeck.cards.length);
     }
 
     drawGameCardDeck() {
