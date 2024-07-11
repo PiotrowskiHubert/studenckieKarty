@@ -162,7 +162,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <mainClass>com.projektZespolowyPWR.studenckiekarty.StudenckieKartyApplication</mainClass>
+                    <mainClass>com.projektzespolowypwr.studenckiekarty.StudenckieKartyApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
