@@ -8,13 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(){
-        return "/html/index";
+        return "redirect:/nav/v1/home";
     }
-
-    @GetMapping("/game")
-    public String game(){
-        return "/html/blackjack-ingame";
-    }
-
-
 }

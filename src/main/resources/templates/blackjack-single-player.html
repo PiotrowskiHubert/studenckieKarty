@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link th:href="@{/css/blackjack-single-player/blackjack-single-player.css}" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+        <title>Blackjack-single-player</title>
+
+        <script th:inline="javascript">
+            let nickname = /*[[${player.nickname}]]*/ '';
+            let balance = /*[[${player.balance}]]*/ 0;
+        </script>
+    </head>
+    <body class="body" data-bs-theme="dark">
+        <nav th:replace="main::navigationBar"></nav>
+
+        <div>
+            <canvas id="canvas1"></canvas>
+
+            <script th:src="@{/js/blackjack-single-player/player-profile.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/card.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/card-draw.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/dealer-draw.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/dealer.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/frog-dealer.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/raven-dealer.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/bear-dealer.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/spider-dealer.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/player-draw.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/player.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/card-deck.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/game-card-deck.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/my-button-with-text.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/my-button-with-image-and-text-underneath.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/buttons.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/bet-buttons-config.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/dealer-buttons-config.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/game-buttons-config.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/ace-buttons-config.js}"></script>
+            <script th:src="@{/js/blackjack-single-player/game.js}"></script>
+        </div>
+    </body>
+</html>
