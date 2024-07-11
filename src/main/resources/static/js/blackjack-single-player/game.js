@@ -12,7 +12,6 @@ class Game {
         this.image = new Image();
 
         this.image.src = '../../img/blackjack-single-player/game-table-final.PNG';
-        // this.image.src = '../../img/blackjack-single-player/game_table.png';
         this.image.onload = () => {
             this.ctx.drawImage(this.image, 0, 0, this.canvas.width, this.canvas.height);
         }
@@ -22,68 +21,9 @@ class Game {
         this.baseHeight = 720;
         this.ratio = this.height = this.baseHeight;
 
-        this.betButtonsConfig = new BetButtonsConfig();
-        this.dealerButtonsConfig = new DealerButtonsConfig();
-        this.gameButtonsConfig = new GameButtonsConfig();
-        this.aceButtonConfig = new AceButtonsConfig();
-
         this.buttons = new Buttons(this);
 
-        this.betButtons = [];
-        this.dealerButtons = [];
-        this.gameButtons = [];
-        this.aceButtons = [];
-
-        this.bet1Button = this.betButtonsConfig.bet1Button(this);
-        this.bet5Button = this.betButtonsConfig.bet5Button(this);
-        this.bet10Button = this.betButtonsConfig.bet10Button(this);
-        this.betM1Button = this.betButtonsConfig.betM1Button(this);
-        this.betM5Button = this.betButtonsConfig.betM5Button(this);
-        this.betM10Button = this.betButtonsConfig.betM10Button(this);
-        this.betOk = this.betButtonsConfig.betOkButton(this);
-        this.betCancel = this.betButtonsConfig.betCancelButton(this);
-
-        this.betButtons.push(
-            this.bet1Button,
-            this.bet5Button,
-            this.bet10Button,
-            this.betM1Button,
-            this.betM5Button,
-            this.betM10Button,
-            this.betOk,
-            this.betCancel
-        );
-
-        this.dealerFrogButton = this.dealerButtonsConfig.dealerFrogButton(this);
-        this.dealerBearButton = this.dealerButtonsConfig.dealerBearButton(this);
-        this.dealerRavenButton = this.dealerButtonsConfig.dealerRavenButton(this);
-        this.dealerSpiderButton = this.dealerButtonsConfig.dealerSpiderButton(this);
-
-        this.dealerButtons.push(
-            this.dealerFrogButton,
-            this.dealerBearButton,
-            this.dealerRavenButton,
-            this.dealerSpiderButton
-        );
-
-        this.gameHitButton = this.gameButtonsConfig.gameHitButton(this);
-        this.gameStandButton = this.gameButtonsConfig.gameStandButton(this)
-
-        this.gameButtons.push(
-            this.gameHitButton,
-            this.gameStandButton
-        );
-
-        this.aceValue1Button = this.aceButtonConfig.aceValue1Button(this);
-        this.aceValue11Button = this.aceButtonConfig.aceValue11Button(this);
-
-        this.aceButtons.push(
-            this.aceValue1Button,
-            this.aceValue11Button
-        );
-
         this.player = new Player(this, nickname, balance);
-        // this.dealer = new Dealer(this);
 
         this.gameCardDeck = new GameCardDeck(this);
         this.gameState = 'PLACE_BET';
@@ -127,17 +67,48 @@ class Game {
     }
 
     update(){
+        function buttonAction(){
+            console.log("a")
+        }
+
+        const buttonUpdate = (button, buttonAction) => {
+            if (this.mouseX >= (button.posX * 0.75) &&
+                this.mouseX <= ((button.posX + button.width) * 0.75) &&
+                this.mouseY >= (button.posY * 0.75) &&
+                this.mouseY <= ((button.posY + button.height) * 0.75)
+            ){
+                button.mouseOver = true;
+
+                if(this.mouseClick){
+                    button.clicked = true;
+                    if (button.clicked){
+
+                        // BUTTON ACTION //
+
+                        button.clicked = false;
+                    }
+                    this.mouseClick = false;
+                }else {
+                    button.clicked = false;
+                }
+            }else {
+                if (button.mouseOver){
+                    button.mouseOver = false;
+                }
+            }
+        }
+
         const placeBetUpdate = () => {
-            if (this.mouseX >= (this.bet1Button.posX * 0.75) &&
-                this.mouseX <= ((this.bet1Button.posX + this.bet1Button.width) * 0.75) &&
-                this.mouseY >= (this.bet1Button.posY * 0.75) &&
-                this.mouseY <= ((this.bet1Button.posY + this.bet1Button.height) * 0.75)
+            if (this.mouseX >= (this.buttons.bet1Button.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.bet1Button.posX + this.buttons.bet1Button.width) * 0.75) &&
+                this.mouseY >= (this.buttons.bet1Button.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.bet1Button.posY + this.buttons.bet1Button.height) * 0.75)
             ) {
-                this.bet1Button.mouseOver = true;
+                this.buttons.bet1Button.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.bet1Button.clicked = true;
-                    if (this.bet1Button.clicked) {
+                    this.buttons.bet1Button.clicked = true;
+                    if (this.buttons.bet1Button.clicked) {
                         if (this.player.playerProfile.balance >= 1) {
                             this.player.bet += 1;
                             this.player.playerProfile.balance -= 1;
@@ -145,29 +116,29 @@ class Game {
                             this.player.bet += this.player.playerProfile.balance;
                             this.player.playerProfile.balance = 0;
                         }
-                        this.bet1Button.clicked = false;
+                        this.buttons.bet1Button.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.bet1Button.clicked = false;
+                    this.buttons.bet1Button.clicked = false;
                 }
             } else {
-                if (this.bet1Button.mouseOver) {
-                    this.bet1Button.mouseOver = false;
+                if (this.buttons.bet1Button.mouseOver) {
+                    this.buttons.bet1Button.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.bet5Button.posX * 0.75) &&
-                this.mouseX <= ((this.bet5Button.posX + this.bet5Button.width) * 0.75) &&
-                this.mouseY >= (this.bet5Button.posY * 0.75) &&
-                this.mouseY <= ((this.bet5Button.posY + this.bet5Button.height) * 0.75)
+            if (this.mouseX >= (this.buttons.bet5Button.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.bet5Button.posX + this.buttons.bet5Button.width) * 0.75) &&
+                this.mouseY >= (this.buttons.bet5Button.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.bet5Button.posY + this.buttons.bet5Button.height) * 0.75)
             ) {
-                this.bet5Button.mouseOver = true;
+                this.buttons.bet5Button.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.bet5Button.clicked = true;
-                    if (this.bet5Button.clicked) {
+                    this.buttons.bet5Button.clicked = true;
+                    if (this.buttons.bet5Button.clicked) {
                         if (this.player.playerProfile.balance >= 5) {
                             this.player.bet += 5;
                             this.player.playerProfile.balance -= 5;
@@ -175,29 +146,29 @@ class Game {
                             this.player.bet += this.player.playerProfile.balance;
                             this.player.playerProfile.balance = 0;
                         }
-                        this.bet5Button.clicked = false;
+                        this.buttons.bet5Button.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.bet5Button.clicked = false;
+                    this.buttons.bet5Button.clicked = false;
                 }
             } else {
-                if (this.bet5Button.mouseOver) {
-                    this.bet5Button.mouseOver = false;
+                if (this.buttons.bet5Button.mouseOver) {
+                    this.buttons.bet5Button.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.bet10Button.posX * 0.75) &&
-                this.mouseX <= ((this.bet10Button.posX + this.bet10Button.width) * 0.75) &&
-                this.mouseY >= (this.bet10Button.posY * 0.75) &&
-                this.mouseY <= ((this.bet10Button.posY + this.bet10Button.height) * 0.75)
+            if (this.mouseX >= (this.buttons.bet10Button.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.bet10Button.posX + this.buttons.bet10Button.width) * 0.75) &&
+                this.mouseY >= (this.buttons.bet10Button.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.bet10Button.posY + this.buttons.bet10Button.height) * 0.75)
             ) {
-                this.bet10Button.mouseOver = true;
+                this.buttons.bet10Button.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.bet10Button.clicked = true;
-                    if (this.bet10Button.clicked) {
+                    this.buttons.bet10Button.clicked = true;
+                    if (this.buttons.bet10Button.clicked) {
                         if (this.player.playerProfile.balance >= 10) {
                             this.player.bet += 10;
                             this.player.playerProfile.balance -= 10;
@@ -205,29 +176,29 @@ class Game {
                             this.player.bet += this.player.playerProfile.balance;
                             this.player.playerProfile.balance = 0;
                         }
-                        this.bet10Button.clicked = false;
+                        this.buttons.bet10Button.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.bet10Button.clicked = false;
+                    this.buttons.bet10Button.clicked = false;
                 }
             } else {
-                if (this.bet10Button.mouseOver) {
-                    this.bet10Button.mouseOver = false;
+                if (this.buttons.bet10Button.mouseOver) {
+                    this.buttons.bet10Button.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.betM1Button.posX * 0.75) &&
-                this.mouseX <= ((this.betM1Button.posX + this.betM1Button.width) * 0.75) &&
-                this.mouseY >= (this.betM1Button.posY * 0.75) &&
-                this.mouseY <= ((this.betM1Button.posY + this.betM1Button.height) * 0.75)
+            if (this.mouseX >= (this.buttons.betM1Button.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.betM1Button.posX + this.buttons.betM1Button.width) * 0.75) &&
+                this.mouseY >= (this.buttons.betM1Button.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.betM1Button.posY + this.buttons.betM1Button.height) * 0.75)
             ) {
-                this.betM1Button.mouseOver = true;
+                this.buttons.betM1Button.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.betM1Button.clicked = true;
-                    if (this.betM1Button.clicked) {
+                    this.buttons.betM1Button.clicked = true;
+                    if (this.buttons.betM1Button.clicked) {
                         if (this.player.bet >= 1) {
                             this.player.bet -= 1;
                             this.player.playerProfile.balance += 1;
@@ -235,29 +206,29 @@ class Game {
                             this.player.playerProfile.balance += this.player.bet;
                             this.player.bet = 0;
                         }
-                        this.betM1Button.clicked = false;
+                        this.buttons.betM1Button.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.betM1Button.clicked = false;
+                    this.buttons.betM1Button.clicked = false;
                 }
             } else {
-                if (this.betM1Button.mouseOver) {
-                    this.betM1Button.mouseOver = false;
+                if (this.buttons.betM1Button.mouseOver) {
+                    this.buttons.betM1Button.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.betM5Button.posX * 0.75) &&
-                this.mouseX <= ((this.betM5Button.posX + this.betM5Button.width) * 0.75) &&
-                this.mouseY >= (this.betM5Button.posY * 0.75) &&
-                this.mouseY <= ((this.betM5Button.posY + this.betM5Button.height) * 0.75)
+            if (this.mouseX >= (this.buttons.betM5Button.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.betM5Button.posX + this.buttons.betM5Button.width) * 0.75) &&
+                this.mouseY >= (this.buttons.betM5Button.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.betM5Button.posY + this.buttons.betM5Button.height) * 0.75)
             ) {
-                this.betM5Button.mouseOver = true;
+                this.buttons.betM5Button.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.betM5Button.clicked = true;
-                    if (this.betM5Button.clicked) {
+                    this.buttons.betM5Button.clicked = true;
+                    if (this.buttons.betM5Button.clicked) {
                         if (this.player.bet >= 5) {
                             this.player.bet -= 5;
                             this.player.playerProfile.balance += 5;
@@ -265,29 +236,29 @@ class Game {
                             this.player.playerProfile.balance += this.player.bet;
                             this.player.bet = 0;
                         }
-                        this.betM5Button.clicked = false;
+                        this.buttons.betM5Button.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.betM5Button.clicked = false;
+                    this.buttons.betM5Button.clicked = false;
                 }
             } else {
-                if (this.betM5Button.mouseOver) {
-                    this.betM5Button.mouseOver = false;
+                if (this.buttons.betM5Button.mouseOver) {
+                    this.buttons.betM5Button.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.betM10Button.posX * 0.75) &&
-                this.mouseX <= ((this.betM10Button.posX + this.betM10Button.width) * 0.75) &&
-                this.mouseY >= (this.betM10Button.posY * 0.75) &&
-                this.mouseY <= ((this.betM10Button.posY + this.betM10Button.height) * 0.75)
+            if (this.mouseX >= (this.buttons.betM10Button.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.betM10Button.posX + this.buttons.betM10Button.width) * 0.75) &&
+                this.mouseY >= (this.buttons.betM10Button.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.betM10Button.posY + this.buttons.betM10Button.height) * 0.75)
             ) {
-                this.betM10Button.mouseOver = true;
+                this.buttons.betM10Button.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.betM10Button.clicked = true;
-                    if (this.betM10Button.clicked) {
+                    this.buttons.betM10Button.clicked = true;
+                    if (this.buttons.betM10Button.clicked) {
                         if (this.player.bet >= 10) {
                             this.player.bet -= 10;
                             this.player.playerProfile.balance += 10;
@@ -295,29 +266,29 @@ class Game {
                             this.player.playerProfile.balance += this.player.bet;
                             this.player.bet = 0;
                         }
-                        this.betM10Button.clicked = false;
+                        this.buttons.betM10Button.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.betM10Button.clicked = false;
+                    this.buttons.betM10Button.clicked = false;
                 }
             } else {
-                if (this.betM10Button.mouseOver) {
-                    this.betM10Button.mouseOver = false;
+                if (this.buttons.betM10Button.mouseOver) {
+                    this.buttons.betM10Button.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.betOk.posX * 0.75) &&
-                this.mouseX <= ((this.betOk.posX + this.betOk.width) * 0.75) &&
-                this.mouseY >= (this.betOk.posY * 0.75) &&
-                this.mouseY <= ((this.betOk.posY + this.betOk.height) * 0.75)
+            if (this.mouseX >= (this.buttons.betOk.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.betOk.posX + this.buttons.betOk.width) * 0.75) &&
+                this.mouseY >= (this.buttons.betOk.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.betOk.posY + this.buttons.betOk.height) * 0.75)
             ){
-                this.betOk.mouseOver = true;
+                this.buttons.betOk.mouseOver = true;
 
                 if(this.mouseClick){
-                    this.betOk.clicked = true;
-                    if (this.betOk.clicked){
+                    this.buttons.betOk.clicked = true;
+                    if (this.buttons.betOk.clicked){
                         if (this.player.bet > 0){
                             sendBetToServer('/games/v1/blackjack-single-player/bet', { bet: this.player.bet })
                                 .then(data => {
@@ -330,38 +301,38 @@ class Game {
 
                             this.gameState = 'SELECT_DEALER';
                         }
-                        this.betOk.clicked = false;
+                        this.buttons.betOk.clicked = false;
                     }
                     this.mouseClick = false;
                 }else {
-                    this.betOk.clicked = false;
+                    this.buttons.betOk.clicked = false;
                 }
             }else {
-                if (this.betOk.mouseOver){
-                    this.betOk.mouseOver = false;
+                if (this.buttons.betOk.mouseOver){
+                    this.buttons.betOk.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.betCancel.posX * 0.75) &&
-                this.mouseX <= ((this.betCancel.posX + this.betCancel.width) * 0.75) &&
-                this.mouseY >= (this.betCancel.posY * 0.75) &&
-                this.mouseY <= ((this.betCancel.posY + this.betCancel.height) * 0.75)
+            if (this.mouseX >= (this.buttons.betCancel.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.betCancel.posX + this.buttons.betCancel.width) * 0.75) &&
+                this.mouseY >= (this.buttons.betCancel.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.betCancel.posY + this.buttons.betCancel.height) * 0.75)
             ){
-                this.betCancel.mouseOver = true;
+                this.buttons.betCancel.mouseOver = true;
 
                 if(this.mouseClick){
-                    this.betCancel.clicked = true;
-                    if (this.betCancel.clicked){
+                    this.buttons.betCancel.clicked = true;
+                    if (this.buttons.betCancel.clicked){
                         window.location.href = '/';
-                        this.betCancel.clicked = false;
+                        this.buttons.betCancel.clicked = false;
                     }
                     this.mouseClick = false;
                 }else {
-                    this.betCancel.clicked = false;
+                    this.buttons.betCancel.clicked = false;
                 }
             }else {
-                if (this.betCancel.mouseOver){
-                    this.betCancel.mouseOver = false;
+                if (this.buttons.betCancel.mouseOver){
+                    this.buttons.betCancel.mouseOver = false;
                 }
             }
 
@@ -370,103 +341,103 @@ class Game {
             }
         }
         const selectDealerUpdate = () => {
-            if (this.mouseX >= (this.dealerFrogButton.posX * 0.75) &&
-                this.mouseX <= ((this.dealerFrogButton.posX + this.dealerFrogButton.width) * 0.75) &&
-                this.mouseY >= (this.dealerFrogButton.posY * 0.75) &&
-                this.mouseY <= ((this.dealerFrogButton.posY + this.dealerFrogButton.height) * 0.75)
+            if (this.mouseX >= (this.buttons.dealerFrogButton.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.dealerFrogButton.posX + this.buttons.dealerFrogButton.width) * 0.75) &&
+                this.mouseY >= (this.buttons.dealerFrogButton.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.dealerFrogButton.posY + this.buttons.dealerFrogButton.height) * 0.75)
             ) {
-                this.dealerFrogButton.mouseOver = true;
+                this.buttons.dealerFrogButton.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.dealerFrogButton.clicked = true;
-                    if (this.dealerFrogButton.clicked) {
-                        this.dealer = new Dealer(this, this.dealerFrogButton.text, this.dealerFrogButton.image.src);
+                    this.buttons.dealerFrogButton.clicked = true;
+                    if (this.buttons.dealerFrogButton.clicked) {
+                        this.dealer = new Dealer(this, this.buttons.dealerFrogButton.text, this.buttons.dealerFrogButton.image.src);
                         this.gameState = 'GET_START_CARDS';
-                        this.dealerFrogButton.clicked = false;
+                        this.buttons.dealerFrogButton.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.dealerFrogButton.clicked = false;
+                    this.buttons.dealerFrogButton.clicked = false;
                 }
             } else {
-                if (this.dealerFrogButton.mouseOver) {
-                    this.dealerFrogButton.mouseOver = false;
+                if (this.buttons.dealerFrogButton.mouseOver) {
+                    this.buttons.dealerFrogButton.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.dealerBearButton.posX * 0.75) &&
-                this.mouseX <= ((this.dealerBearButton.posX + this.dealerBearButton.width) * 0.75) &&
-                this.mouseY >= (this.dealerBearButton.posY * 0.75) &&
-                this.mouseY <= ((this.dealerBearButton.posY + this.dealerBearButton.height) * 0.75)
+            if (this.mouseX >= (this.buttons.dealerBearButton.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.dealerBearButton.posX + this.buttons.dealerBearButton.width) * 0.75) &&
+                this.mouseY >= (this.buttons.dealerBearButton.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.dealerBearButton.posY + this.buttons.dealerBearButton.height) * 0.75)
             ) {
-                this.dealerBearButton.mouseOver = true;
+                this.buttons.dealerBearButton.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.dealerBearButton.clicked = true;
-                    if (this.dealerBearButton.clicked) {
-                        this.dealer = new Dealer(this, this.dealerBearButton.text, this.dealerBearButton.image.src)
+                    this.buttons.dealerBearButton.clicked = true;
+                    if (this.buttons.dealerBearButton.clicked) {
+                        this.dealer = new Dealer(this, this.buttons.dealerBearButton.text, this.buttons.dealerBearButton.image.src)
                         this.gameState = 'GET_START_CARDS';
-                        this.dealerBearButton.clicked = false;
+                        this.buttons.dealerBearButton.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.dealerBearButton.clicked = false;
+                    this.buttons.dealerBearButton.clicked = false;
                 }
             } else {
-                if (this.dealerBearButton.mouseOver) {
-                    this.dealerBearButton.mouseOver = false;
+                if (this.buttons.dealerBearButton.mouseOver) {
+                    this.buttons.dealerBearButton.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.dealerRavenButton.posX * 0.75) &&
-                this.mouseX <= ((this.dealerRavenButton.posX + this.dealerRavenButton.width) * 0.75) &&
-                this.mouseY >= (this.dealerRavenButton.posY * 0.75) &&
-                this.mouseY <= ((this.dealerRavenButton.posY + this.dealerRavenButton.height) * 0.75)
+            if (this.mouseX >= (this.buttons.dealerRavenButton.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.dealerRavenButton.posX + this.buttons.dealerRavenButton.width) * 0.75) &&
+                this.mouseY >= (this.buttons.dealerRavenButton.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.dealerRavenButton.posY + this.buttons.dealerRavenButton.height) * 0.75)
             ) {
-                this.dealerRavenButton.mouseOver = true;
+                this.buttons.dealerRavenButton.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.dealerRavenButton.clicked = true;
-                    if (this.dealerRavenButton.clicked) {
-                        this.dealer = new Dealer(this, this.dealerRavenButton.text, this.dealerRavenButton.image.src)
+                    this.buttons.dealerRavenButton.clicked = true;
+                    if (this.buttons.dealerRavenButton.clicked) {
+                        this.dealer = new Dealer(this, this.buttons.dealerRavenButton.text, this.buttons.dealerRavenButton.image.src)
                         this.gameState = 'GET_START_CARDS';
-                        this.dealerRavenButton.clicked = false;
+                        this.buttons.dealerRavenButton.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.dealerRavenButton.clicked = false;
+                    this.buttons.dealerRavenButton.clicked = false;
                 }
             } else {
-                if (this.dealerRavenButton.mouseOver) {
-                    this.dealerRavenButton.mouseOver = false;
+                if (this.buttons.dealerRavenButton.mouseOver) {
+                    this.buttons.dealerRavenButton.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.dealerSpiderButton.posX * 0.75) &&
-                this.mouseX <= ((this.dealerSpiderButton.posX + this.dealerSpiderButton.width) * 0.75) &&
-                this.mouseY >= (this.dealerSpiderButton.posY * 0.75) &&
-                this.mouseY <= ((this.dealerSpiderButton.posY + this.dealerSpiderButton.height) * 0.75)
+            if (this.mouseX >= (this.buttons.dealerSpiderButton.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.dealerSpiderButton.posX + this.buttons.dealerSpiderButton.width) * 0.75) &&
+                this.mouseY >= (this.buttons.dealerSpiderButton.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.dealerSpiderButton.posY + this.buttons.dealerSpiderButton.height) * 0.75)
             ) {
-                this.dealerSpiderButton.mouseOver = true;
+                this.buttons.dealerSpiderButton.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.dealerSpiderButton.clicked = true;
-                    if (this.dealerSpiderButton.clicked) {
-                        this.dealer = new Dealer(this, this.dealerSpiderButton.text, this.dealerSpiderButton.image.src)
+                    this.buttons.dealerSpiderButton.clicked = true;
+                    if (this.buttons.dealerSpiderButton.clicked) {
+                        this.dealer = new Dealer(this, this.buttons.dealerSpiderButton.text, this.buttons.dealerSpiderButton.image.src)
                         this.gameState = 'GET_START_CARDS';
-                        this.dealerSpiderButton.clicked = false;
+                        this.buttons.dealerSpiderButton.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.dealerSpiderButton.clicked = false;
+                    this.buttons.dealerSpiderButton.clicked = false;
                 }
             } else {
-                if (this.dealerSpiderButton.mouseOver) {
-                    this.dealerSpiderButton.mouseOver = false;
+                if (this.buttons.dealerSpiderButton.mouseOver) {
+                    this.buttons.dealerSpiderButton.mouseOver = false;
                 }
             }
 
@@ -497,55 +468,55 @@ class Game {
             this.gameState = 'GAME';
         }
         const gameUpdate = () => {
-            if (this.mouseX >= (this.gameHitButton.posX * 0.75) &&
-                this.mouseX <= ((this.gameHitButton.posX + this.gameHitButton.width) * 0.75) &&
-                this.mouseY >= (this.gameHitButton.posY * 0.75) &&
-                this.mouseY <= ((this.gameHitButton.posY + this.gameHitButton.height) * 0.75)
+            if (this.mouseX >= (this.buttons.gameHitButton.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.gameHitButton.posX + this.buttons.gameHitButton.width) * 0.75) &&
+                this.mouseY >= (this.buttons.gameHitButton.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.gameHitButton.posY + this.buttons.gameHitButton.height) * 0.75)
             ){
-                this.gameHitButton.mouseOver = true;
+                this.buttons.gameHitButton.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.gameHitButton.clicked = true;
-                    if (this.gameHitButton.clicked && !this.player.stand) {
+                    this.buttons.gameHitButton.clicked = true;
+                    if (this.buttons.gameHitButton.clicked && !this.player.stand) {
                         this.player.getCard();
 
-                        this.gameHitButton.clicked = false;
-                        this.gameHitButton.mouseOver = false;
+                        this.buttons.gameHitButton.clicked = false;
+                        this.buttons.gameHitButton.mouseOver = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.gameHitButton.clicked = false;
+                    this.buttons.gameHitButton.clicked = false;
                 }
             } else {
-                if (this.gameHitButton.mouseOver) {
-                    this.gameHitButton.mouseOver = false;
+                if (this.buttons.gameHitButton.mouseOver) {
+                    this.buttons.gameHitButton.mouseOver = false;
                 }
             }
 
-            if (this.mouseX >= (this.gameStandButton.posX * 0.75) &&
-                this.mouseX <= ((this.gameStandButton.posX + this.gameStandButton.width) * 0.75) &&
-                this.mouseY >= (this.gameStandButton.posY * 0.75) &&
-                this.mouseY <= ((this.gameStandButton.posY + this.gameStandButton.height) * 0.75)
+            if (this.mouseX >= (this.buttons.gameStandButton.posX * 0.75) &&
+                this.mouseX <= ((this.buttons.gameStandButton.posX + this.buttons.gameStandButton.width) * 0.75) &&
+                this.mouseY >= (this.buttons.gameStandButton.posY * 0.75) &&
+                this.mouseY <= ((this.buttons.gameStandButton.posY + this.buttons.gameStandButton.height) * 0.75)
             ) {
-                this.gameStandButton.mouseOver = true;
+                this.buttons.gameStandButton.mouseOver = true;
 
                 if (this.mouseClick) {
-                    this.gameStandButton.clicked = true;
+                    this.buttons.gameStandButton.clicked = true;
 
-                    if (this.gameStandButton.clicked && !this.player.stand) {
+                    if (this.buttons.gameStandButton.clicked && !this.player.stand) {
                         this.player.stand = true;
                         this.turnState = 'DEALER_TURN';
-                        this.gameStandButton.clicked = false;
+                        this.buttons.gameStandButton.clicked = false;
                     }
 
                     this.mouseClick = false;
                 } else {
-                    this.gameStandButton.clicked = false;
+                    this.buttons.gameStandButton.clicked = false;
                 }
             } else {
-                if (this.gameStandButton.mouseOver) {
-                    this.gameStandButton.mouseOver = false;
+                if (this.buttons.gameStandButton.mouseOver) {
+                    this.buttons.gameStandButton.mouseOver = false;
                 }
             }
 
@@ -557,53 +528,53 @@ class Game {
             switch (this.turnState) {
                 case 'PLAYER_TURN':
                     if (this.aceOccured){
-                        if (this.mouseX >= (this.aceValue1Button.posX * 0.75) &&
-                            this.mouseX <= ((this.aceValue1Button.posX + this.aceValue1Button.width) * 0.75) &&
-                            this.mouseY >= (this.aceValue1Button.posY * 0.75) &&
-                            this.mouseY <= ((this.aceValue1Button.posY + this.aceValue1Button.height) * 0.75)
+                        if (this.mouseX >= (this.buttons.aceValue1Button.posX * 0.75) &&
+                            this.mouseX <= ((this.buttons.aceValue1Button.posX + this.buttons.aceValue1Button.width) * 0.75) &&
+                            this.mouseY >= (this.buttons.aceValue1Button.posY * 0.75) &&
+                            this.mouseY <= ((this.buttons.aceValue1Button.posY + this.buttons.aceValue1Button.height) * 0.75)
                         ) {
-                            this.aceValue1Button.mouseOver = true;
+                            this.buttons.aceValue1Button.mouseOver = true;
 
                             if (this.mouseClick) {
-                                this.aceValue1Button.clicked = true;
-                                if (this.aceValue1Button.clicked) {
+                                this.buttons.aceValue1Button.clicked = true;
+                                if (this.buttons.aceValue1Button.clicked) {
                                     this.player.addPoints(1);
                                     this.aceOccured = false;
-                                    this.aceValue1Button.clicked = false;
+                                    this.buttons.aceValue1Button.clicked = false;
                                 }
 
                                 this.mouseClick = false;
                             } else {
-                                this.aceValue1Button.clicked = false;
+                                this.buttons.aceValue1Button.clicked = false;
                             }
                         } else {
-                            if (this.aceValue1Button.mouseOver) {
-                                this.aceValue1Button.mouseOver = false;
+                            if (this.buttons.aceValue1Button.mouseOver) {
+                                this.buttons.aceValue1Button.mouseOver = false;
                             }
                         }
 
-                        if (this.mouseX >= (this.aceValue11Button.posX * 0.75) &&
-                            this.mouseX <= ((this.aceValue11Button.posX + this.aceValue11Button.width) * 0.75) &&
-                            this.mouseY >= (this.aceValue11Button.posY * 0.75) &&
-                            this.mouseY <= ((this.aceValue11Button.posY + this.aceValue11Button.height) * 0.75)
+                        if (this.mouseX >= (this.buttons.aceValue11Button.posX * 0.75) &&
+                            this.mouseX <= ((this.buttons.aceValue11Button.posX + this.buttons.aceValue11Button.width) * 0.75) &&
+                            this.mouseY >= (this.buttons.aceValue11Button.posY * 0.75) &&
+                            this.mouseY <= ((this.buttons.aceValue11Button.posY + this.buttons.aceValue11Button.height) * 0.75)
                         ) {
-                            this.aceValue11Button.mouseOver = true;
+                            this.buttons.aceValue11Button.mouseOver = true;
 
                             if (this.mouseClick) {
-                                this.aceValue11Button.clicked = true;
-                                if (this.aceValue11Button.clicked) {
+                                this.buttons.aceValue11Button.clicked = true;
+                                if (this.buttons.aceValue11Button.clicked) {
                                     this.player.addPoints(11);
                                     this.aceOccured = false;
-                                    this.aceValue11Button.clicked = false;
+                                    this.buttons.aceValue11Button.clicked = false;
                                 }
 
                                 this.mouseClick = false;
                             } else {
-                                this.aceValue11Button.clicked = false;
+                                this.buttons.aceValue11Button.clicked = false;
                             }
                         } else {
-                            if (this.aceValue11Button.mouseOver) {
-                                this.aceValue11Button.mouseOver = false;
+                            if (this.buttons.aceValue11Button.mouseOver) {
+                                this.buttons.aceValue11Button.mouseOver = false;
                             }
                         }
 
@@ -619,33 +590,6 @@ class Game {
                     break;
             }
         }
-        const testButtonUpdate = () => {
-            if (this.mouseX >= (this.buttons.testButton.posX * 0.75) &&
-                this.mouseX <= ((this.buttons.testButton.posX + this.buttons.testButton.width) * 0.75) &&
-                this.mouseY >= (this.buttons.testButton.posY * 0.75) &&
-                this.mouseY <= ((this.buttons.testButton.posY + this.buttons.testButton.height) * 0.75)
-            ) {
-                this.buttons.testButton.mouseOver = true;
-
-                if (this.mouseClick) {
-                    this.buttons.testButton.clicked = true;
-                    if (this.buttons.testButton.clicked) {
-
-                        console.log("test button action")
-
-                        this.buttons.testButton.clicked = false;
-                    }
-
-                    this.mouseClick = false;
-                } else {
-                    this.buttons.testButton.clicked = false;
-                }
-            } else {
-                if (this.buttons.testButton.mouseOver) {
-                    this.buttons.testButton.mouseOver = false;
-                }
-            }
-        }
 
         switch (this.gameState) {
             case 'PLACE_BET':
@@ -658,55 +602,54 @@ class Game {
                 getStartCardsUpdate();
                 break;
             case 'GAME':
-                testButtonUpdate();
                 if (this.playerAcesAtStart > 0){
-                    if (this.mouseX >= (this.aceValue1Button.posX * 0.75) &&
-                        this.mouseX <= ((this.aceValue1Button.posX + this.aceValue1Button.width) * 0.75) &&
-                        this.mouseY >= (this.aceValue1Button.posY * 0.75) &&
-                        this.mouseY <= ((this.aceValue1Button.posY + this.aceValue1Button.height) * 0.75)
+                    if (this.mouseX >= (this.buttons.aceValue1Button.posX * 0.75) &&
+                        this.mouseX <= ((this.buttons.aceValue1Button.posX + this.buttons.aceValue1Button.width) * 0.75) &&
+                        this.mouseY >= (this.buttons.aceValue1Button.posY * 0.75) &&
+                        this.mouseY <= ((this.buttons.aceValue1Button.posY + this.buttons.aceValue1Button.height) * 0.75)
                     ) {
-                        this.aceValue1Button.mouseOver = true;
+                        this.buttons.aceValue1Button.mouseOver = true;
 
                         if (this.mouseClick) {
-                            this.aceValue1Button.clicked = true;
-                            if (this.aceValue1Button.clicked) {
+                            this.buttons.aceValue1Button.clicked = true;
+                            if (this.buttons.aceValue1Button.clicked) {
                                 this.player.addPoints(1);
                                 this.playerAcesAtStart--;
-                                this.aceValue1Button.clicked = false;
+                                this.buttons.aceValue1Button.clicked = false;
                             }
 
                             this.mouseClick = false;
                         } else {
-                            this.aceValue1Button.clicked = false;
+                            this.buttons.aceValue1Button.clicked = false;
                         }
                     } else {
-                        if (this.aceValue1Button.mouseOver) {
-                            this.aceValue1Button.mouseOver = false;
+                        if (this.buttons.aceValue1Button.mouseOver) {
+                            this.buttons.aceValue1Button.mouseOver = false;
                         }
                     }
 
-                    if (this.mouseX >= (this.aceValue11Button.posX * 0.75) &&
-                        this.mouseX <= ((this.aceValue11Button.posX + this.aceValue11Button.width) * 0.75) &&
-                        this.mouseY >= (this.aceValue11Button.posY * 0.75) &&
-                        this.mouseY <= ((this.aceValue11Button.posY + this.aceValue11Button.height) * 0.75)
+                    if (this.mouseX >= (this.buttons.aceValue11Button.posX * 0.75) &&
+                        this.mouseX <= ((this.buttons.aceValue11Button.posX + this.buttons.aceValue11Button.width) * 0.75) &&
+                        this.mouseY >= (this.buttons.aceValue11Button.posY * 0.75) &&
+                        this.mouseY <= ((this.buttons.aceValue11Button.posY + this.buttons.aceValue11Button.height) * 0.75)
                     ) {
-                        this.aceValue11Button.mouseOver = true;
+                        this.buttons.aceValue11Button.mouseOver = true;
 
                         if (this.mouseClick) {
-                            this.aceValue11Button.clicked = true;
-                            if (this.aceValue11Button.clicked) {
+                            this.buttons.aceValue11Button.clicked = true;
+                            if (this.buttons.aceValue11Button.clicked) {
                                 this.player.addPoints(11);
                                 this.playerAcesAtStart--;
-                                this.aceValue11Button.clicked = false;
+                                this.buttons.aceValue11Button.clicked = false;
                             }
 
                             this.mouseClick = false;
                         } else {
-                            this.aceValue11Button.clicked = false;
+                            this.buttons.aceValue11Button.clicked = false;
                         }
                     } else {
-                        if (this.aceValue11Button.mouseOver) {
-                            this.aceValue11Button.mouseOver = false;
+                        if (this.buttons.aceValue11Button.mouseOver) {
+                            this.buttons.aceValue11Button.mouseOver = false;
                         }
                     }
                 }else if(this.dealerAcesAtStart>0) {
@@ -862,23 +805,23 @@ class Game {
         }
 
         const drawPlaceBetButtons = () => {
-            for (let i = 0; i < this.betButtons.length; i++) {
-                this.betButtons[i].draw();
+            for (let i = 0; i < this.buttons.betButtons.length; i++) {
+                this.buttons.betButtons[i].draw();
             }
         }
         const drawDealerButtons = () => {
-            for (let i = 0; i < this.dealerButtons.length; i++) {
-                this.dealerButtons[i].draw();
+            for (let i = 0; i < this.buttons.dealerButtons.length; i++) {
+                this.buttons.dealerButtons[i].draw();
             }
         }
         const drawGameButtons = () => {
-            for (let i = 0; i < this.gameButtons.length; i++) {
-                this.gameButtons[i].draw();
+            for (let i = 0; i < this.buttons.gameButtons.length; i++) {
+                this.buttons.gameButtons[i].draw();
             }
         }
         const drawAceButtons = () => {
-            for (let i = 0; i < this.aceButtons.length; i++) {
-                this.aceButtons[i].draw();
+            for (let i = 0; i < this.buttons.aceButtons.length; i++) {
+                this.buttons.aceButtons[i].draw();
             }
         }
 
@@ -959,7 +902,6 @@ class Game {
                 drawGameCardDeck();
                 drawGameButtons();
 
-                this.buttons.testButton.draw();
 
                 if (this.playerAcesAtStart > 0){
                     drawAceButtons();
